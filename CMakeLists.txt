@@ -9,7 +9,7 @@ endif()
 
 #=====================
 project(multitail LANGUAGES C)
-set(VERSION VERSION=6.4.3)
+set(VERSION 6.4.3)
 #=====================
 
 # usage:
@@ -151,7 +151,7 @@ install(FILES license.txt DESTINATION share/doc/multitail-${VERSION})
 install(FILES readme.txt DESTINATION share/doc/multitail-${VERSION})
 install(FILES thanks.txt DESTINATION share/doc/multitail-${VERSION})
 # cp conversion-scripts/* etc/multitail/
-install(DIRECTORY conversion-scripts DESTINATION ect/multitail)
+install(DIRECTORY conversion-scripts DESTINATION etc/multitail)
 
 
 if(USE_CPPCHECK)
@@ -171,3 +171,15 @@ endif()
 include(CMakePrintSystemInformation)
 message("CMAKE_C_LIBRARY_ARCHITECTURE ${CMAKE_C_LIBRARY_ARCHITECTURE}")
 
+# Packaging support
+set(CPACK_PACKAGE_VENDOR "Folkert van Heusden")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MultiTail allows you to monitor logfiles and command output in multiple windows in a terminal, colorise, filter and merge.")
+set(CPACK_GENERATOR "RPM")
+string(REPLACE "VERSION=" "" PKG_VERSION ${VERSION})
+set(CPACK_PACKAGE_VERSION ${PKG_VERSION})
+#set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+#set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+#set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/license.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+include(CPack)
