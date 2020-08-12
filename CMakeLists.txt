@@ -151,7 +151,7 @@ install(FILES license.txt DESTINATION share/doc/multitail-${VERSION})
 install(FILES readme.txt DESTINATION share/doc/multitail-${VERSION})
 install(FILES thanks.txt DESTINATION share/doc/multitail-${VERSION})
 # cp conversion-scripts/* etc/multitail/
-install(DIRECTORY conversion-scripts DESTINATION ect/multitail)
+install(DIRECTORY conversion-scripts DESTINATION etc/multitail)
 
 
 if(USE_CPPCHECK)
