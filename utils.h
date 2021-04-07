@@ -50,3 +50,4 @@ char * term_t_to_string(term_t term);
 ssize_t WRITE(int fd, char *whereto, size_t len, char *for_whom);
 char zerotomin(char c);
 void str_add(char **to, const char *what, ...);
+int HasSuffix(const char *str, const char *suffix);

@@ -764,7 +764,7 @@ char ask_colors(NEWWIN *win, int line, char cur, char *fieldnr, char **fielddel,
 	{
 		int c = wait_for_keypress(HELP_ASK_COLORS, 0, win, 0);
 
-		if (c == abort_key) return -1;
+		if (c == abort_key) return 0;
 
 		switch(c)
 		{
@@ -772,14 +772,14 @@ char ask_colors(NEWWIN *win, int line, char cur, char *fieldnr, char **fielddel,
 				if (ask_terminal_emulation(term_emul) == 0)
 					return 0;
 
-				return -1;
+				return 0;
 
 			case 'q':
-				return -1;
+				return 0;
 
 			case 'S':
 				if (select_schemes(cschemes, n_cschemes, SCHEME_COLOR, color_schemes) == -1)
-					return -1;
+					return 0;
 				return 'S';
 
 			case 's':
@@ -961,8 +961,13 @@ int add_window(void)
 		}
 
 		fname = edit_string(mywin, 3, 2, 41, find_path_max(), 0, NULL, what_help, -1, &cmdfile_h, NULL);
-		if (!fname)
+	
+		if( !fname || access( fname, F_OK ) != 0 || !HasSuffix(fname, ".log") ) {
+			mvwprintw(mywin -> win, 8, 2, "please select a valid .log file");
+			mydoupdate();
+			wait_for_keypress(HELP_FAILED_TO_START_TAIL, 0, mywin, 0);
 			break;
+		}
 
 		if (fc == 'F')
 		{
@@ -972,8 +977,6 @@ int add_window(void)
 		}
 
 		col = ask_colors(mywin, 5, -1, &field_nr, &field_del, &color_schemes, &cdev, &term_emul);
-		if (col == -1)
-			break;
 
 		if (cur == NULL)
 		{
