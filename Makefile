@@ -3,34 +3,20 @@ include version
 PLATFORM:=$(shell uname)
 CPPFLAGS:=$(shell pkg-config --cflags ncurses)
 NCURSES_LIB:=$(shell pkg-config --libs ncurses)
-DEBUG:=#XXX -g -D_DEBUG ###-pg -Wpedantic ## -pg #-fprofile-arcs
-# pkg-config --libs --cflags ncurses
-# -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -lncurses -ltinfo
+PANEL_LIB:=$(shell pkg-config --libs panel)
 
-UTF8_SUPPORT:=yes
 DESTDIR=
 PREFIX=./out
 CONFIG_FILE=$(DESTDIR)$(PREFIX)/etc/multitail.conf
 
 CC?=gcc
 CFLAGS+=-Wall -Wno-unused-parameter -funsigned-char -O3
-CPPFLAGS+=-D$(PLATFORM) -DVERSION=\"$(VERSION)\" $(DEBUG) -DCONFIG_FILE=\"$(CONFIG_FILE)\" -D_FORTIFY_SOURCE=2
+CPPFLAGS+=-D$(PLATFORM) -DVERSION=\"$(VERSION)\" -DCONFIG_FILE=\"$(CONFIG_FILE)\" -D_FORTIFY_SOURCE=2
 
 # build dependency files while compile (*.d)
 CPPFLAGS+= -MMD -MP
 
-
-ifeq ($(PLATFORM),Darwin)
-    LDFLAGS+=-lpanel $(NCURSES_LIB) -lutil -lm
-else
-ifeq ($(UTF8_SUPPORT),yes)
-    LDFLAGS+=-lpanelw -lncursesw -lutil -lm
-    CPPFLAGS+=-DUTF8_SUPPORT
-else
-    LDFLAGS+=-lpanel -lncurses -lutil -lm
-endif
-endif
-
+LDFLAGS+=$(PANEL_LIB) $(NCURSES_LIB) -lutil -lm
 
 OBJS:=utils.o mt.o error.o my_pty.o term.o scrollback.o help.o mem.o cv.o selbox.o stripstring.o color.o misc.o ui.o exec.o diff.o config.o cmdline.o globals.o history.o clipboard.o
 DEPENDS:= $(OBJS:%.o=%.d)
@@ -40,7 +26,7 @@ DEPENDS:= $(OBJS:%.o=%.d)
 all: multitail
 
 multitail: $(OBJS)
-	$(CC) $(OBJS) $(LDFLAGS) -o multitail
+	$(CC) $(OBJS) $(LDFLAGS) -static -o multitail
 
 ccmultitail: $(OBJS)
 	ccmalloc --no-wrapper -Wextra $(CC) $(OBJS) $(LDFLAGS) -o ccmultitail
