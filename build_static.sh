@@ -10,4 +10,5 @@ apk add make gcc musl-dev ncurses-libs ncurses-static ncurses-dev
 cd /mnt
 make clean
 make install
-
+make clean
+make distclean

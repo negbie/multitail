@@ -931,6 +931,7 @@ int add_window(void)
 			}
 		}
 
+		/* Disable user commands!
 		escape_print(mywin, 2, 2, "File or command? (^f^/^c^)         ");
 		mydoupdate();
 		for(;;)
@@ -942,6 +943,9 @@ int add_window(void)
 
 			wrong_key();
 		}
+		*/
+
+		fc = 'F';
 
 		if (fc == 'Q' || fc == abort_key)
 			break;
@@ -1369,7 +1373,10 @@ int edit_regexp(void)
 		}
 		else if (c == 'r')
 		{
-			(cur -> pre)[cur_re].match_count = 0;
+			if (cur -> pre != NULL)
+			{
+				(cur -> pre)[cur_re].match_count = 0;
+			}
 		}
 	}
 
