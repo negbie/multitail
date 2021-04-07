@@ -2507,11 +2507,13 @@ void main_loop(void)
 				statistics_menu();
 				continue;
 			}
+			/* Disable user truncate_file!
 			else if (c == 'T')
 			{
 				truncate_file();
 				continue;
 			}
+			*/
 			else if (uc == 'J')
 			{
 				if (set_window_sizes())
@@ -2589,10 +2591,12 @@ void main_loop(void)
 			{
 				screendump();
 			}
+			/* Disable user write_script!
 			else if (uc == 'W')
 			{
 				write_script();
 			}
+			*/
 			else if (uc == 'M')
 			{
 				set_buffering();
@@ -2629,10 +2633,12 @@ void main_loop(void)
 				for(loop=0; loop<nfd; loop++)
 					add_markerline(loop, NULL, MARKER_REGULAR, NULL);
 			}
+			/* Disable user write_script!
 			else if (uc == 'K')
 			{
 				terminal_mode();
 			}
+			*/
 			else if (uc == ' ')	/* space */
 			{
 				/* mail = 0;
@@ -2654,10 +2660,12 @@ void main_loop(void)
 				set_linewrap();
 				set_do_refresh(2);
 			}
-			else if (c == 'Y')	/* send a signal to a window */
+			/* Disable user send_signal!
+			else if (c == 'Y')
 			{
 				send_signal();
 			}
+			*/
 			else if (c == '/')	/* search in all windows */
 			{
 				search_in_all_windows();

@@ -898,7 +898,7 @@ int add_window(void)
 			int rc;
 
 			ask_add_to = 0;
-			mvwprintw(mywin -> win, 2, 2, "Add (merge) to existing window?");
+			mvwprintw(mywin -> win, 2, 2, "Add (merge) to existing window? (y/n)");
 			mydoupdate();
 
 			rc = ask_yes_no(HELP_ADD_WINDOW_MERGE_SUBWIN, mywin);
@@ -915,7 +915,7 @@ int add_window(void)
 
 				cur = &pi[index];
 			}
-			else if (rc == -1)	/* pressed 'Q' */
+			else if (rc <= 0)
 			{
 				break;
 			}
@@ -1050,7 +1050,7 @@ int add_window(void)
 		if (set_next_pointer)
 			set_next_pointer -> next = cur;
 
-		mvwprintw(mywin -> win, 10, 2, "Add another to this new window?");
+		mvwprintw(mywin -> win, 10, 2, "Add another file to this new window? (y/n)");
 		mydoupdate();
 		if (ask_yes_no(HELP_MERGE_ANOTHER_WINDOW, mywin) <= 0)
 			break;
