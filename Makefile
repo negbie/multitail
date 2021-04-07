@@ -9,7 +9,7 @@ DEBUG:=#XXX -g -D_DEBUG ###-pg -Wpedantic ## -pg #-fprofile-arcs
 
 UTF8_SUPPORT:=yes
 DESTDIR=
-PREFIX=/usr/local
+PREFIX=./out
 CONFIG_FILE=$(DESTDIR)$(PREFIX)/etc/multitail.conf
 
 CC?=gcc
